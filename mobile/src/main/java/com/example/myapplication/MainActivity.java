@@ -173,7 +173,8 @@ public class MainActivity extends AppCompatActivity {
                                     out.write("Hello, wear!".getBytes());
                                 } else {
                                     /** image file stream */
-                                    imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // PNG is a lossless format, the compression factor (100) is ignored
+                                    if (imageBitmap != null)
+                                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // PNG is a lossless format, the compression factor (100) is ignored
                                 }
                                 out.flush();
                                 out.close();
