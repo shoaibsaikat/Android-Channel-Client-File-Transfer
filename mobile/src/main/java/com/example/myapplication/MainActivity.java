@@ -77,20 +77,19 @@ public class MainActivity extends AppCompatActivity {
             );
         }
          */
-
+        executorService = new ThreadPoolExecutor(4, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-        executorService = new ThreadPoolExecutor(4, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
         btnTakePhoto.setEnabled(cameraSupported);
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
 
         executorService.shutdown();
     }
