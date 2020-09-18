@@ -67,9 +67,6 @@ public class MainActivity extends AppCompatActivity {
         btnTakePhoto = findViewById(R.id.btnImage);
 
         cameraSupported = getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
-
-        executorService = new ThreadPoolExecutor(4, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
-
         /*
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
@@ -87,7 +84,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        executorService = new ThreadPoolExecutor(4, 5, 60L, TimeUnit.SECONDS, new LinkedBlockingDeque<Runnable>());
         btnTakePhoto.setEnabled(cameraSupported);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        executorService.shutdown();
     }
 
     private Collection<String> getNodes() {
